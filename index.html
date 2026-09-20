@@ -286,7 +286,7 @@ footer a { color: var(--ep-blue); text-decoration: none; }
       </svg>
       <span>EnergyPal</span>
     </a>
-    <a class="nav-phone" href="tel:+18009903725">(800) 990-3725</a>
+    <a class="nav-phone" href="tel:+19516660631">(951) 666-0631</a>
   </div>
 </nav>
 
@@ -436,9 +436,9 @@ footer a { color: var(--ep-blue); text-decoration: none; }
       <button class="cta" onclick="handleSubmit()">Get my free quote</button>
     </div>
     <div id="formSuccess">
-      <h3>You're on your way to savings!</h3>
-      <p>An EnergyPal advisor will reach out shortly with your custom solar quote.</p>
-      <a href="#" class="cta" id="partnerLink" target="_blank">Explore EnergyPal solar packages</a>
+      <svg width="64" height="64" viewBox="0 0 64 64" fill="none" style="margin-bottom:16px"><circle cx="32" cy="32" r="30" fill="#C9DAF8"/><path d="M20 33l8 8 16-16" stroke="#1155CC" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <h3>Thank you!</h3>
+      <p>We've received your information. One of our customer relationship sales representatives will call you shortly to discuss the best solar options for your home.</p>
     </div>
   </div>
 </section>
@@ -474,8 +474,7 @@ function handleSubmit() {
   };
   console.log('NEW LEAD:', JSON.stringify(lead));
 
-  // Show success and set partner link
-  document.getElementById('partnerLink').href = REFERRAL_LINK;
+  // Show success message
   document.getElementById('formFields').style.display = 'none';
   document.getElementById('formSuccess').style.display = 'block';
 }
