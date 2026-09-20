@@ -674,7 +674,6 @@ function generateRec() {
   }
 
   const annualSavings = Math.round(bill * 11.5);
-  const payback = Math.round((systemKw * 2000 * 0.7) / (bill * 12)); // rough after 30% ITC
 
   const html = `
     <div class="rec-header">
@@ -684,8 +683,6 @@ function generateRec() {
     <div class="rec-line"><span class="rec-icon">📐</span><strong>System size:</strong> ${systemKw} kW — designed to offset your ~$${bill}/mo bill</div>
     ${batteryRec}
     <div class="rec-line"><span class="rec-icon">💰</span><strong>Est. annual savings:</strong> ~$${annualSavings.toLocaleString()}</div>
-    <div class="rec-line"><span class="rec-icon">🏛️</span><strong>Federal tax credit:</strong> 30% off system cost</div>
-    <div class="rec-line"><span class="rec-icon">📅</span><strong>Est. payback:</strong> ~${payback} years</div>
   `;
   document.getElementById('recCard').innerHTML = html;
 }
