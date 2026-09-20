@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Go Solar for Less in Southern California | EnergyPal</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --ep-blue: #1155CC;
+  --ep-blue-dark: #0D44A3;
+  --ep-powder: #C9DAF8;
+  --ep-gray: #888888;
+  --ep-white: #FFFFFF;
+  --ep-bg: #F6F8FC;
+  --ep-text: #1a1a2e;
+  --ep-text-light: #4a4a5a;
+  --radius: 12px;
+  --shadow: 0 2px 20px rgba(17,85,204,0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ep-bg: #0e1525;
+    --ep-text: #e8eaf0;
+    --ep-text-light: #a0a8b8;
+    --ep-white: #161e30;
+    --shadow: 0 2px 20px rgba(0,0,0,0.3);
+  }
+}
+:root[data-theme="dark"] {
+  --ep-bg: #0e1525;
+  --ep-text: #e8eaf0;
+  --ep-text-light: #a0a8b8;
+  --ep-white: #161e30;
+  --shadow: 0 2px 20px rgba(0,0,0,0.3);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Roboto', sans-serif;
+  background: var(--ep-bg);
+  color: var(--ep-text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: var(--ep-white);
+  border-bottom: 1px solid rgba(17,85,204,0.08);
+  backdrop-filter: blur(12px);
+}
+.nav-inner {
+  max-width: 1100px; margin: 0 auto;
+  padding: 14px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-logo svg { height: 32px; }
+.nav-logo span {
+  font-family: 'Montserrat', sans-serif; font-weight: 700;
+  font-size: 1.25rem; color: var(--ep-blue);
+}
+.nav-phone {
+  font-family: 'Montserrat', sans-serif; font-weight: 600;
+  color: var(--ep-blue); text-decoration: none; font-size: 0.95rem;
+}
+.nav-phone:hover { text-decoration: underline; }
+
+/* HERO */
+.hero {
+  padding: 140px 24px 80px;
+  text-align: center;
+  background: linear-gradient(175deg, var(--ep-powder) 0%, var(--ep-bg) 55%);
+}
+.hero h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800; font-size: clamp(2rem, 5vw, 3.2rem);
+  line-height: 1.15; color: var(--ep-text);
+  max-width: 720px; margin: 0 auto 20px;
+}
+.hero h1 .accent { color: var(--ep-blue); }
+.hero p {
+  font-size: 1.15rem; color: var(--ep-text-light);
+  max-width: 540px; margin: 0 auto 36px;
+}
+.hero-badges {
+  display: flex; gap: 24px; justify-content: center; flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+.badge {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 0.9rem; color: var(--ep-text-light);
+}
+.badge svg { flex-shrink: 0; }
+
+/* CTA BUTTON */
+.cta {
+  display: inline-block;
+  font-family: 'Montserrat', sans-serif; font-weight: 700;
+  font-size: 1.1rem; color: #fff;
+  background: var(--ep-blue);
+  padding: 16px 40px; border-radius: 50px;
+  text-decoration: none; border: none; cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+.cta:hover { background: var(--ep-blue-dark); transform: translateY(-1px); }
+
+/* SAVINGS SECTION */
+.savings {
+  max-width: 1100px; margin: 0 auto;
+  padding: 60px 24px;
+}
+.savings h2 {
+  font-family: 'Montserrat', sans-serif; font-weight: 700;
+  font-size: 1.6rem; text-align: center; margin-bottom: 40px;
+}
+.savings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+.savings-card {
+  background: var(--ep-white);
+  border-radius: var(--radius);
+  padding: 32px 24px;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+.savings-card .number {
+  font-family: 'Montserrat', sans-serif; font-weight: 800;
+  font-size: 2.4rem; color: var(--ep-blue);
+  line-height: 1.1; margin-bottom: 8px;
+}
+.savings-card .label {
+  font-size: 0.95rem; color: var(--ep-text-light);
+}
+
+/* PRODUCTS */
+.products {
+  max-width: 1100px; margin: 0 auto;
+  padding: 60px 24px;
+}
+.products h2 {
+  font-family: 'Montserrat', sans-serif; font-weight: 700;
+  font-size: 1.6rem; text-align: center; margin-bottom: 12px;
+}
+.products > p {
+  text-align: center; color: var(--ep-text-light);
+  max-width: 520px; margin: 0 auto 40px;
+}
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+.product-card {
+  background: var(--ep-white);
+  border-radius: var(--radius);
+  padding: 36px 28px;
+  box-shadow: var(--shadow);
+  border-top: 4px solid var(--ep-blue);
+}
+.product-card h3 {
+  font-family: 'Montserrat', sans-serif; font-weight: 700;
+  font-size: 1.2rem; margin-bottom: 16px;
+}
+.product-card ul {
+  list-style: none; padding: 0;
+}
+.product-card li {
+  padding: 6px 0; color: var(--ep-text-light);
+  font-size: 0.95rem;
+  display: flex; align-items: flex-start; gap: 8px;
+}
+.product-card li::before {
+  content: '';
+  display: inline-block; width: 8px; height: 8px;
+  background: var(--ep-blue); border-radius: 50%;
+  flex-shrink: 0; margin-top: 7px;
+}
+
+/* HOW IT WORKS */
+.how {
+  max-width: 800px; margin: 0 auto;
+  padding: 60px 24px;
+}
+.how h2 {
+  font-family: 'Montserrat', sans-serif; font-weight: 700;
+  font-size: 1.6rem; text-align: center; margin-bottom: 40px;
+}
+.steps { display: flex; flex-direction: column; gap: 28px; }
+.step {
+  display: flex; align-items: flex-start; gap: 20px;
+}
+.step-num {
+  font-family: 'Montserrat', sans-serif; font-weight: 800;
+  font-size: 1.8rem; color: var(--ep-powder);
+  line-height: 1; flex-shrink: 0; width: 48px; text-align: center;
+}
+.step-content h3 {
+  font-family: 'Montserrat', sans-serif; font-weight: 600;
+  font-size: 1.05rem; margin-bottom: 4px;
+}
+.step-content p { font-size: 0.95rem; color: var(--ep-text-light); }
+
+/* FORM SECTION */
+.form-section {
+  max-width: 580px; margin: 0 auto;
+  padding: 60px 24px 80px;
+}
+.form-box {
+  background: var(--ep-white);
+  border-radius: var(--radius);
+  padding: 40px 32px;
+  box-shadow: var(--shadow);
+}
+.form-box h2 {
+  font-family: 'Montserrat', sans-serif; font-weight: 700;
+  font-size: 1.4rem; text-align: center; margin-bottom: 6px;
+}
+.form-box .sub {
+  text-align: center; color: var(--ep-text-light);
+  font-size: 0.95rem; margin-bottom: 28px;
+}
+.form-row { margin-bottom: 16px; }
+.form-row label {
+  display: block; font-size: 0.85rem; font-weight: 500;
+  color: var(--ep-text-light); margin-bottom: 5px;
+}
+.form-row input, .form-row select {
+  width: 100%; padding: 12px 14px;
+  border: 1.5px solid rgba(17,85,204,0.18);
+  border-radius: 8px; font-size: 1rem;
+  font-family: 'Roboto', sans-serif;
+  background: var(--ep-bg); color: var(--ep-text);
+  transition: border-color 0.2s;
+}
+.form-row input:focus, .form-row select:focus {
+  outline: none; border-color: var(--ep-blue);
+}
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-note {
+  font-size: 0.78rem; color: var(--ep-gray);
+  margin: 16px 0 20px; line-height: 1.5;
+}
+.form-box .cta { width: 100%; text-align: center; font-size: 1rem; }
+
+#formSuccess {
+  display: none; text-align: center; padding: 40px 20px;
+}
+#formSuccess h3 {
+  font-family: 'Montserrat', sans-serif; font-weight: 700;
+  font-size: 1.3rem; color: var(--ep-blue); margin-bottom: 12px;
+}
+#formSuccess p { color: var(--ep-text-light); margin-bottom: 24px; }
+
+/* FOOTER */
+footer {
+  text-align: center; padding: 32px 24px;
+  font-size: 0.85rem; color: var(--ep-gray);
+  border-top: 1px solid rgba(17,85,204,0.08);
+}
+footer a { color: var(--ep-blue); text-decoration: none; }
+
+@media (max-width: 600px) {
+  .form-grid { grid-template-columns: 1fr; }
+  .form-box { padding: 28px 20px; }
+  .hero { padding: 120px 20px 60px; }
+  .step { flex-direction: column; gap: 8px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="#">
+      <svg viewBox="0 0 32 32" width="32" height="32" fill="none">
+        <rect width="32" height="32" rx="6" fill="#1155CC"/>
+        <text x="7" y="23" font-family="Montserrat,sans-serif" font-weight="800" font-size="20" fill="#fff">E</text>
+      </svg>
+      <span>EnergyPal</span>
+    </a>
+    <a class="nav-phone" href="tel:+18009903725">(800) 990-3725</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <h1>Southern California homeowners are <span class="accent">saving thousands</span> by switching to solar</h1>
+  <p>Get a free, no-pressure quote on top-rated solar panels and home battery systems. EnergyPal finds you the best deal.</p>
+  <div class="hero-badges">
+    <span class="badge">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1l2.2 4.5 5 .7-3.6 3.5.9 5L9 12.5 4.5 14.7l.9-5L1.8 6.2l5-.7z" fill="#1155CC"/></svg>
+      4.9 stars on Google
+    </span>
+    <span class="badge">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="#1155CC" stroke-width="1.5" fill="none"/><path d="M6 9l2 2 4-4" stroke="#1155CC" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      1,500+ installations
+    </span>
+    <span class="badge">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="3" y="5" width="12" height="9" rx="1.5" stroke="#1155CC" stroke-width="1.5" fill="none"/><path d="M3 8h12" stroke="#1155CC" stroke-width="1.5"/><circle cx="6" cy="11" r="1" fill="#1155CC"/></svg>
+      $0 down financing
+    </span>
+  </div>
+  <a href="#quote" class="cta">Get your free quote</a>
+</section>
+
+<section class="savings">
+  <h2>What SoCal homeowners save with solar</h2>
+  <div class="savings-grid">
+    <div class="savings-card">
+      <div class="number">30%</div>
+      <div class="label">Federal tax credit on your system</div>
+    </div>
+    <div class="savings-card">
+      <div class="number">$150+</div>
+      <div class="label">Average monthly electricity savings</div>
+    </div>
+    <div class="savings-card">
+      <div class="number">25 yr</div>
+      <div class="label">Product and performance warranty</div>
+    </div>
+    <div class="savings-card">
+      <div class="number">4–8%</div>
+      <div class="label">Increase in home resale value</div>
+    </div>
+  </div>
+</section>
+
+<section class="products">
+  <h2>Premium products, wholesale pricing</h2>
+  <p>EnergyPal works with top manufacturers so you get the best equipment at the lowest price.</p>
+  <div class="product-grid">
+    <div class="product-card">
+      <h3>QCELLS Solar + Battery</h3>
+      <ul>
+        <li>High-efficiency QCELLS solar panels</li>
+        <li>QCELLS battery for whole-home backup</li>
+        <li>Integrated system, single warranty</li>
+        <li>Sleek all-black panel design</li>
+        <li>Made-in-USA manufacturing</li>
+      </ul>
+    </div>
+    <div class="product-card">
+      <h3>QCELLS Solar + Tesla Powerwall</h3>
+      <ul>
+        <li>High-efficiency QCELLS solar panels</li>
+        <li>Tesla Powerwall battery storage</li>
+        <li>Tesla app for real-time monitoring</li>
+        <li>Storm Watch and grid outage protection</li>
+        <li>Scalable — add more Powerwalls later</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="how">
+  <h2>How it works</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h3>Tell us about your home</h3>
+        <p>Fill out the short form below. It takes about 60 seconds.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h3>Get a custom quote</h3>
+        <p>An EnergyPal advisor reviews your roof, usage, and utility rates to design the right system.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h3>Go solar and start saving</h3>
+        <p>EnergyPal handles permitting, installation, and utility interconnection. You just watch your bill drop.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="form-section" id="quote">
+  <div class="form-box">
+    <div id="formFields">
+      <h2>Get your free solar quote</h2>
+      <p class="sub">No cost, no obligation — takes 60 seconds.</p>
+      <div class="form-grid">
+        <div class="form-row">
+          <label for="fname">First name</label>
+          <input type="text" id="fname" placeholder="Jane" required>
+        </div>
+        <div class="form-row">
+          <label for="lname">Last name</label>
+          <input type="text" id="lname" placeholder="Smith" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="jane@email.com" required>
+      </div>
+      <div class="form-row">
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" placeholder="(555) 123-4567" required>
+      </div>
+      <div class="form-row">
+        <label for="address">Street address</label>
+        <input type="text" id="address" placeholder="123 Main St, City, CA" required>
+      </div>
+      <div class="form-grid">
+        <div class="form-row">
+          <label for="zip">Zip code</label>
+          <input type="text" id="zip" placeholder="92880" required>
+        </div>
+        <div class="form-row">
+          <label for="bill">Monthly electric bill</label>
+          <select id="bill">
+            <option value="">Select range</option>
+            <option>Under $100</option>
+            <option>$100 – $200</option>
+            <option>$200 – $300</option>
+            <option>$300 – $500</option>
+            <option>$500+</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-note">
+        By submitting, you agree that EnergyPal may contact you at the number provided about solar options, even if on a do-not-call list, using automated means. Consent is not required to purchase.
+      </div>
+      <button class="cta" onclick="handleSubmit()">Get my free quote</button>
+    </div>
+    <div id="formSuccess">
+      <h3>You're on your way to savings!</h3>
+      <p>An EnergyPal advisor will reach out shortly with your custom solar quote.</p>
+      <a href="#" class="cta" id="partnerLink" target="_blank">Explore EnergyPal solar packages</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Solar & home battery installations by <a href="https://energypal.com" target="_blank">EnergyPal</a>. &copy; 2026. All rights reserved.
+</footer>
+
+<script>
+// ============================================================
+// IMPORTANT: Replace this URL with your actual EnergyPal
+// referral/partner link so you get credit for every lead.
+// ============================================================
+const REFERRAL_LINK = 'https://energypal.com/?ref=YOUR_PARTNER_ID';
+
+function handleSubmit() {
+  const fields = ['fname','lname','email','phone','address','zip'];
+  let valid = true;
+  fields.forEach(id => {
+    if (!document.getElementById(id).value.trim()) valid = false;
+  });
+  if (!valid) { alert('Please fill in all fields.'); return; }
+
+  // Capture lead data (you can send this to your own CRM / Google Sheet / email)
+  const lead = {
+    name: document.getElementById('fname').value + ' ' + document.getElementById('lname').value,
+    email: document.getElementById('email').value,
+    phone: document.getElementById('phone').value,
+    address: document.getElementById('address').value,
+    zip: document.getElementById('zip').value,
+    bill: document.getElementById('bill').value,
+    date: new Date().toISOString()
+  };
+  console.log('NEW LEAD:', JSON.stringify(lead));
+
+  // Show success and set partner link
+  document.getElementById('partnerLink').href = REFERRAL_LINK;
+  document.getElementById('formFields').style.display = 'none';
+  document.getElementById('formSuccess').style.display = 'block';
+}
+</script>
+
+</body>
+</html>
